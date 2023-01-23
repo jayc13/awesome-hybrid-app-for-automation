@@ -61,16 +61,3 @@ jobs:
       - name: Install Pods
         working-directory: ./ios
         run: pod install --repo-update
-
-      - name: Build App
-        uses: sparkfabrik/ios-build-action@v2.0.0
-        with:
-          upload-to-testflight: false
-          increment-build-number: false
-          build-pods: true
-          pods-path: 'ios/Podfile'
-          project-path: ios/AwesomeProject.xcodeproj
-          configuration: Debug
-          export-method: development
-          team-id: ${{ secrets.TEAM_ID }}
-          team-name: ${{ secrets.TEAM_NAME }}
