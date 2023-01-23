@@ -1,1 +1,5 @@
-# awesome-hybrid-app-for-automation
+# Awesome Hybrid App for Automation
+
+## Pre-requisites
+
+## Build
