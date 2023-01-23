@@ -40,15 +40,18 @@ jobs:
 
       - name: Setup Ruby (bundle)
         uses: ruby/setup-ruby@v1
+        working-directory: ./
         with:
-          ruby-version: 2.7.4
+          ruby-version: 3.2.0
           bundler-cache: true
 
       - name: Install dependencies
+        working-directory: ./
         run: yarn install --frozen-lockfile --network-timeout 300000
 
       - name: Restore Pods cache
         uses: actions/cache@v2
+        working-directory: ./
         with:
           path: |
             ios/Pods
@@ -59,7 +62,9 @@ jobs:
             ${{ runner.os }}-pods-
 
       - name: Install Pods
-        run: cd ios && pod install --repo-update && cd ..
+        working-directory: ./ios
+        run: pod install --repo-update
 
       - name: Build App
+        working-directory: ./
         run: npm run build-ios
