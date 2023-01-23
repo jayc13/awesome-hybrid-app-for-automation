@@ -38,16 +38,28 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
+      - name: Setup Ruby (bundle)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.0
+          bundler-cache: true
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 300000
 
-      - name: Build App
-        uses: sparkfabrik/ios-build-action@v2.0.0
+      - name: Restore Pods cache
+        uses: actions/cache@v2
         with:
-          upload-to-testflight: false
-          increment-build-number: false
-          build-pods: true
-          pods-path: 'ios/Podfile'
-          configuration: Debug
-          export-method: development
-          project-path: ios/AwesomeProject.xcodeproj
+          path: |
+            ios/Pods
+            ~/Library/Caches/CocoaPods
+            ~/.cocoapods
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Install Pods
+        run: cd ios && pod install --repo-update && cd ..
+
+      - name: Build App
+        run: npm run build-ios
