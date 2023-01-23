@@ -9,9 +9,8 @@ on:
     - main
   push:
     branches:
-    #- main
+    - main
     - release/*
-
 
 jobs:
   ios-build:
@@ -40,7 +39,6 @@ jobs:
 
       - name: Setup Ruby (bundle)
         uses: ruby/setup-ruby@v1
-        working-directory: ./
         with:
           ruby-version: 3.2.0
           bundler-cache: true
@@ -51,7 +49,6 @@ jobs:
 
       - name: Restore Pods cache
         uses: actions/cache@v2
-        working-directory: ./
         with:
           path: |
             ios/Pods
